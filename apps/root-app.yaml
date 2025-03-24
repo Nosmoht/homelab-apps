@@ -12,3 +12,6 @@ spec:
     path: apps
     repoURL: https://github.com/Nosmoht/homelab-apps.git
     targetRevision: HEAD
+  syncPolicy:
+    automated: {}
+
