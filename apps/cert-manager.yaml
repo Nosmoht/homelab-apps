@@ -7,7 +7,7 @@ spec:
   destination:
     namespace: cert-manager
     name: homelab
-  project: default
+  project: homelab
   source:
     path: overlays/homelab/cert-manager
     repoURL: https://github.com/Nosmoht/homelab-apps.git
