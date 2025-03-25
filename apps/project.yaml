@@ -10,4 +10,4 @@ spec:
     namespace: '*'
     server: https://10.0.0.10:6443
   sourceRepos:
-  - git@github.com:Nosmoht/homelab-cluster.git
+  - https://github.com/Nosmoht/homelab-apps.git
