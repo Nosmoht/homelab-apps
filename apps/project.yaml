@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: homelab
+  namespace: argocd
+spec:
+  description: Homelab
+  destinations:
+  - name: homelab
+    namespace: '*'
+    server: https://10.0.0.10:6443
+  sourceRepos:
+  - git@github.com:Nosmoht/homelab-cluster.git
