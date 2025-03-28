@@ -1,13 +1,25 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
+  labels:
+    app.kubernetes.io/instance: homelab-apps
   name: homelab
   namespace: argocd
 spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
   description: Homelab
+  destinationServiceAccounts:
+  - defaultServiceAccount: homelab
+    namespace: '*'
+    server: https://10.0.0.10:6443
   destinations:
   - name: homelab
     namespace: '*'
     server: https://10.0.0.10:6443
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
   sourceRepos:
   - https://github.com/Nosmoht/homelab-apps.git
