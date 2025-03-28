@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-operator
+  namespace: argocd
+spec:
+  destination:
+    namespace: monitoring
+    name: homelab
+  project: homelab
+  source:
+    path: overlays/homelab/prometheus-operator
+    repoURL: https://github.com/Nosmoht/homelab-apps.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
