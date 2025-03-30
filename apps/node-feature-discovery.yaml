@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: node-feature-discovery
+  namespace: argocd
+spec:
+  destination:
+    namespace: node-feature-discovery
+    name: homelab
+  project: homelab
+  source:
+    path: overlays/homelab/node-feature-discovery
+    repoURL: https://github.com/Nosmoht/homelab-apps.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
