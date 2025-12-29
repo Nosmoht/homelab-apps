@@ -18,9 +18,7 @@ spec:
     matchLabels:
       monitoring: default
   serviceMonitorNamespaceSelector: {}
-  podMonitorSelector:
-    matchLabels:
-      monitoring: default
+  podMonitorSelector: {}
   podMonitorNamespaceSelector: {}
   ruleSelector:
     matchLabels:
