@@ -10,5 +10,6 @@ data:
       - name: Prometheus
         type: prometheus
         access: proxy
+        uid: prometheus
         url: http://prometheus-operated.monitoring.svc:9090
         isDefault: true
