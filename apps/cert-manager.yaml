@@ -13,4 +13,6 @@ spec:
     repoURL: https://github.com/Nosmoht/homelab-apps.git
     targetRevision: HEAD
   syncPolicy:
-    automated: {}
+    automated:
+      prune: true
+      selfHeal: true

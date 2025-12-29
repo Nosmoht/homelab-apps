@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards
+  namespace: monitoring
+data:
+  dashboards.txt: |
+    # id name
+    1860 node-exporter-full
+    11001 cert-manager
+    14339 drbd
+    13332 kube-state-metrics

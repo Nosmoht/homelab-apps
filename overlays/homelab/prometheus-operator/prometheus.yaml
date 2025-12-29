@@ -1,0 +1,41 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: prometheus
+  namespace: monitoring
+  labels:
+    monitoring: default
+spec:
+  replicas: 1
+  serviceAccountName: prometheus
+  externalLabels:
+    cluster: homelab
+  securityContext:
+    runAsUser: 65534
+    runAsGroup: 65534
+    fsGroup: 65534
+  serviceMonitorSelector:
+    matchLabels:
+      monitoring: default
+  serviceMonitorNamespaceSelector: {}
+  podMonitorSelector:
+    matchLabels:
+      monitoring: default
+  podMonitorNamespaceSelector: {}
+  ruleSelector:
+    matchLabels:
+      monitoring: default
+  ruleNamespaceSelector: {}
+  retention: 15d
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+  storage:
+    volumeClaimTemplate:
+      spec:
+        storageClassName: linstor-csi
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 50Gi
