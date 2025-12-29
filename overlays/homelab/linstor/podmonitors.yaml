@@ -1,0 +1,35 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: linstor-satellite
+  namespace: piraeus-datastore
+  labels:
+    monitoring: default
+spec:
+  namespaceSelector:
+    matchNames:
+      - piraeus-datastore
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: linstor-satellite
+  podMetricsEndpoints:
+    - port: prometheus
+      interval: 30s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: linstor-affinity-controller
+  namespace: piraeus-datastore
+  labels:
+    monitoring: default
+spec:
+  namespaceSelector:
+    matchNames:
+      - piraeus-datastore
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: linstor-affinity-controller
+  podMetricsEndpoints:
+    - port: metrics
+      interval: 30s

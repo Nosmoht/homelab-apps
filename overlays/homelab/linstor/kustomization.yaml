@@ -9,3 +9,4 @@ resources:
   - linstor-satellite-configuration.yaml
   - storage-classes.yaml
   - servicemonitor.yaml
+  - podmonitors.yaml
