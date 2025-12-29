@@ -50,9 +50,17 @@ spec:
                 esac
                 curl -sL "https://grafana.com/api/dashboards/${id}/revisions/latest/download" \
                   -o "/var/lib/grafana/dashboards/${name}.json"
-                if [ "$name" = "drbd" ]; then
-                  sed -i 's/${DS_PROMETHEUS}/prometheus/g' "/var/lib/grafana/dashboards/${name}.json"
-                fi
+                case "$name" in
+                  drbd)
+                    sed -i 's/${DS_PROMETHEUS}/prometheus/g' "/var/lib/grafana/dashboards/${name}.json"
+                    ;;
+                  kube-state-metrics)
+                    sed -i \
+                      -e 's/${DS_PROMETHEUS}/prometheus/g' \
+                      -e 's/${VAR_DATASOURCE}/prometheus/g' \
+                      "/var/lib/grafana/dashboards/${name}.json"
+                    ;;
+                esac
               done < /etc/grafana/dashboards/dashboards.txt
           volumeMounts:
             - name: dashboards
