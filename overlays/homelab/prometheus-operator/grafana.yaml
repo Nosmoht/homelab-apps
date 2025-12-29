@@ -52,13 +52,10 @@ spec:
                 esac
                 curl -sL "https://grafana.com/api/dashboards/${id}/revisions/latest/download" \
                   -o "/var/lib/grafana/dashboards/${name}.json"
+                sed -i 's/${DS_PROMETHEUS}/prometheus/g' "/var/lib/grafana/dashboards/${name}.json"
                 case "$name" in
-                  drbd)
-                    sed -i 's/${DS_PROMETHEUS}/prometheus/g' "/var/lib/grafana/dashboards/${name}.json"
-                    ;;
                   kube-state-metrics)
                     sed -i \
-                      -e 's/${DS_PROMETHEUS}/prometheus/g' \
                       -e 's/${VAR_DATASOURCE}/prometheus/g' \
                       "/var/lib/grafana/dashboards/${name}.json"
                     ;;
