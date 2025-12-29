@@ -10,3 +10,7 @@ data:
     11001 cert-manager
     14339 drbd
     13332 kube-state-metrics
+    15758 k8s-views-namespaces
+    12114 k8s-compute-resources-cluster
+    12119 k8s-compute-resources-node-pods
+    315 k8s-cluster-monitoring
