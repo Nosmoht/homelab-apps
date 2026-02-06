@@ -5,13 +5,13 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    namespace: default
+    namespace: argocd
     name: in-cluster
   project: default
   source:
     path: apps
     repoURL: https://github.com/Nosmoht/homelab-apps.git
-    targetRevision: HEAD
+    targetRevision: main
   syncPolicy:
     automated:
       prune: true
