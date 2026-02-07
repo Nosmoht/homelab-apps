@@ -31,7 +31,8 @@ spec:
     - port: http
       interval: 30s
       relabelings:
-        - targetLabel: cluster
+        - action: replace
+          targetLabel: cluster
           replacement: homelab
   namespaceSelector:
     matchNames:
