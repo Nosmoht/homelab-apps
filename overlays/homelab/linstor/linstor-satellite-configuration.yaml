@@ -44,7 +44,7 @@ spec:
                     type: DirectoryOrCreate
       target:
         kind: DaemonSet
-        name: linstor-satellite
+        name: linstor-satellite.*
   storagePools:
     - lvmPool:
         volumeGroup: linstor
