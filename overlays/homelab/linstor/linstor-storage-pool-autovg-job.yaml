@@ -1,0 +1,91 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: linstor-storage-pool-autovg
+  namespace: piraeus-datastore
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  backoffLimit: 2
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: piraeus-datastore
+        app.kubernetes.io/component: linstor-storage-pool-autovg
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: linstor-client
+          image: quay.io/piraeusdatastore/piraeus-server:v1.33.1
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -euo pipefail
+              linstor_cmd() {
+                linstor --no-color \
+                  --controllers https://linstor-controller.piraeus-datastore.svc:3371 \
+                  --certfile /etc/linstor/client/tls.crt \
+                  --keyfile /etc/linstor/client/tls.key \
+                  --cafile /etc/linstor/client/ca.crt \
+                  "$@"
+              }
+
+              echo "Waiting for LINSTOR controller..."
+              for _ in $(seq 1 60); do
+                if linstor_cmd node list >/dev/null 2>&1; then
+                  break
+                fi
+                sleep 5
+              done
+
+              if ! linstor_cmd node list >/dev/null 2>&1; then
+                echo "Controller not reachable; exiting without changes."
+                exit 0
+              fi
+
+              pool_name="lvm-thick"
+              vg_name="linstor"
+              device="/dev/nvme0n1"
+
+              nodes_to_fix="$(linstor_cmd storage-pool list | awk -F'|' -v pool="$pool_name" '
+                $2 ~ pool {
+                  node=$3; total=$7;
+                  gsub(/^[ \t]+|[ \t]+$/, "", node);
+                  gsub(/^[ \t]+|[ \t]+$/, "", total);
+                  if (node != "" && (total == "" || total == "0 KiB")) print node;
+                }' | sort -u)"
+
+              if [ -z "$nodes_to_fix" ]; then
+                echo "All pools have capacity; nothing to do."
+                exit 0
+              fi
+
+              nodes_with_vols="$(linstor_cmd volume list | awk -F'|' '
+                NR>2 && $2 !~ /^-+$/ {
+                  node=$3;
+                  gsub(/^[ \t]+|[ \t]+$/, "", node);
+                  if (node != "") print node;
+                }' | sort -u)"
+
+              for node in $nodes_to_fix; do
+                if echo "$nodes_with_vols" | grep -qx "$node"; then
+                  echo "Skipping $node: volumes exist; refusing to modify storage."
+                  continue
+                fi
+                echo "Creating VG '${vg_name}' on ${node} from ${device}..."
+                if ! linstor_cmd physical-storage create-device-pool lvm --pool-name "${vg_name}" "${node}" "${device}"; then
+                  echo "Failed on ${node}; continuing."
+                fi
+              done
+          volumeMounts:
+            - name: linstor-client-tls
+              mountPath: /etc/linstor/client
+              readOnly: true
+      volumes:
+        - name: linstor-client-tls
+          secret:
+            secretName: linstor-client-tls

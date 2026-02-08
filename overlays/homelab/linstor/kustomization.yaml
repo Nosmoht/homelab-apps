@@ -7,5 +7,6 @@ resources:
   - tls.yaml
   - linstor-cluster.yaml
   - linstor-satellite-configuration.yaml
+  - linstor-storage-pool-autovg-job.yaml
   - storage-classes.yaml
   - servicemonitor.yaml
