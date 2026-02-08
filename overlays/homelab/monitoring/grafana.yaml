@@ -10,7 +10,7 @@ spec:
   # TODO: Adjust to a reserved homelab MetalLB IP.
   loadBalancerIP: 10.0.0.70
   annotations:
-    metallb.universe.tf/address-pool: homelab-monitoring
+    metallb.universe.tf/address-pool: homelab
   ports:
     - name: http
       port: 3000
