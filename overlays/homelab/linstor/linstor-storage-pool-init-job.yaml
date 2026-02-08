@@ -21,7 +21,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              set -euo pipefail
+              set -eu
 
               linstor_cmd() {
                 linstor --controllers "${LS_CONTROLLERS}" --no-color --no-utf8 "$@"
