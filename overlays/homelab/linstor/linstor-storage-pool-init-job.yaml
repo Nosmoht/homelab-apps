@@ -69,18 +69,32 @@ spec:
                 fi
                 device="$(echo "$devices" | awk -F: -v n="$node" '$1==n {print $2; exit}')"
 
-                if linstor_cmd storage-pool list -p --nodes "$node" | awk -F'|' 'NR>2 && $2 ~ /lvm-thick/ {found=1} END {exit found?0:1}'; then
-                  echo "Pool exists on $node; leaving as-is"
+                pool_info="$(linstor_cmd storage-pool list -p --nodes "$node" | awk -F'|' 'NR>2 && $2 ~ /lvm-thick/ {gsub(/^[ \t]+|[ \t]+$/, "", $7); gsub(/^[ \t]+|[ \t]+$/, "", $9); print $7 ":" $9; exit}')"
+                total="${pool_info%%:*}"
+                total_compact="$(echo "$total" | tr -d '[:space:]')"
+                pool_state="${pool_info##*:}"
+
+                if [ -z "$pool_info" ]; then
+                  if linstor_cmd resource list -p --nodes "$node" | awk -F'|' 'NR>2 && $2 ~ /[A-Za-z0-9]/ {found=1} END {exit found?0:1}'; then
+                    echo "WARN: LINSTOR resources found on $node; skipping to avoid data loss"
+                    continue
+                  fi
+                  echo "Creating device pool on $node (device=$device)"
+                  linstor_cmd physical-storage create-device-pool lvm "$node" "$device" --pool-name linstor --storage-pool lvm-thick
                   continue
                 fi
 
-                if linstor_cmd resource list -p --nodes "$node" | awk -F'|' 'NR>2 && $2 ~ /[A-Za-z0-9]/ {found=1} END {exit found?0:1}'; then
-                  echo "WARN: LINSTOR resources found on $node; skipping to avoid data loss"
-                  continue
+                if [ -z "$total_compact" ] || [ "$total_compact" = "0KiB" ] || [ "$total_compact" = "0B" ] || [ "$total_compact" = "0" ]; then
+                  if linstor_cmd resource list -p --nodes "$node" | awk -F'|' 'NR>2 && $2 ~ /[A-Za-z0-9]/ {found=1} END {exit found?0:1}'; then
+                    echo "WARN: LINSTOR resources found on $node; skipping to avoid data loss"
+                    continue
+                  fi
+                  echo "Recreating empty pool on $node (state=$pool_state, total=$total)"
+                  linstor_cmd storage-pool delete --nodes "$node" lvm-thick
+                  linstor_cmd physical-storage create-device-pool lvm "$node" "$device" --pool-name linstor --storage-pool lvm-thick
+                else
+                  echo "Pool on $node has capacity ${total}; leaving as-is"
                 fi
-
-                echo "Creating device pool on $node (device=$device)"
-                linstor_cmd physical-storage create-device-pool lvm "$node" "$device" --pool-name linstor --storage-pool lvm-thick
               done
 
               if [ "$offline" -ne 0 ]; then
