@@ -6,6 +6,7 @@ generatorOptions:
 resources:
   - tls.yaml
   - linstor-cluster.yaml
+  - linstor-satellite-configuration-recreate.yaml
   - linstor-satellite-configuration.yaml
   - storage-classes.yaml
   - servicemonitor.yaml
