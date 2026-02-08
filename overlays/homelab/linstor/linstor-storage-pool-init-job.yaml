@@ -56,7 +56,7 @@ spec:
                   continue
                 fi
 
-                pool_info="$(linstor_cmd storage-pool list -p -n "$node" | awk -F'|' 'NR>2 && $2 ~ /lvm-thick/ {gsub(/^[ \t]+|[ \t]+$/, "", $7); gsub(/^[ \t]+|[ \t]+$/, "", $9); print $7 ":" $9; exit}')"
+                pool_info="$(linstor_cmd storage-pool list -p --nodes "$node" | awk -F'|' 'NR>2 && $2 ~ /lvm-thick/ {gsub(/^[ \t]+|[ \t]+$/, "", $7); gsub(/^[ \t]+|[ \t]+$/, "", $9); print $7 ":" $9; exit}')"
                 if [ -z "$pool_info" ]; then
                   echo "Creating device pool on $node"
                   linstor_cmd physical-storage create-device-pool lvm "$node" /dev/nvme0n1 --pool-name linstor --storage-pool lvm-thick
@@ -68,7 +68,7 @@ spec:
                 pool_state="${pool_info##*:}"
                 if [ -z "$total_compact" ] || [ "$total_compact" = "0KiB" ] || [ "$total_compact" = "0B" ] || [ "$total_compact" = "0" ]; then
                   echo "Recreating empty pool on $node (state=$pool_state, total=$total)"
-                  linstor_cmd storage-pool delete -n "$node" lvm-thick || true
+                  linstor_cmd storage-pool delete --nodes "$node" lvm-thick || true
                   linstor_cmd physical-storage create-device-pool lvm "$node" /dev/nvme0n1 --pool-name linstor --storage-pool lvm-thick
                 else
                   echo "Pool on $node has capacity ${total}; leaving as-is"
