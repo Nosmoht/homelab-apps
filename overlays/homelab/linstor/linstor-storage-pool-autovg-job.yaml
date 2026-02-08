@@ -24,7 +24,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              set -uo pipefail
+              set -u
               linstor_cmd() {
                 linstor --no-color \
                   --controllers https://linstor-controller.piraeus-datastore.svc:3371 \
