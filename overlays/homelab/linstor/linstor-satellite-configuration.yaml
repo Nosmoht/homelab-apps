@@ -43,7 +43,7 @@ spec:
         name: satellite
   storagePools:
     - lvmPool:
-        volumeGroup: ""
+        volumeGroup: linstor
       name: lvm-thick
       source:
         hostDevices:
