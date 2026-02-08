@@ -5,12 +5,12 @@ metadata:
   namespace: monitoring
   labels:
     app: grafana
+  annotations:
+    metallb.universe.tf/address-pool: homelab
 spec:
   type: LoadBalancer
   # TODO: Adjust to a reserved homelab MetalLB IP.
   loadBalancerIP: 10.0.0.70
-  annotations:
-    metallb.universe.tf/address-pool: homelab
   ports:
     - name: http
       port: 3000
