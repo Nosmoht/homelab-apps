@@ -1,0 +1,66 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: linstor-storage-pool-init
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: linstor
+          image: quay.io/piraeusdatastore/piraeus-server:v1.32.3
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: LS_CONTROLLERS
+              value: linstor-controller.piraeus-datastore.svc:3370
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -euo pipefail
+
+              linstor_cmd() {
+                linstor --controllers "${LS_CONTROLLERS}" --no-color --no-utf8 "$@"
+              }
+
+              nodes="$(linstor_cmd node list -p | awk -F'|' 'NR>2 && $2 ~ /node-/ {gsub(/^[ \t]+|[ \t]+$/, "", $2); gsub(/^[ \t]+|[ \t]+$/, "", $5); print $2 ":" $5}')"
+              if [ -z "$nodes" ]; then
+                echo "No LINSTOR nodes found"
+                exit 1
+              fi
+
+              offline=0
+              for entry in $nodes; do
+                node="${entry%%:*}"
+                state="${entry##*:}"
+                if [ "$state" != "Online" ]; then
+                  echo "WARN: $node is $state; skipping"
+                  offline=1
+                  continue
+                fi
+
+                pool_info="$(linstor_cmd storage-pool list -p -n "$node" | awk -F'|' 'NR>2 && $2 ~ /lvm-thick/ {gsub(/^[ \t]+|[ \t]+$/, "", $7); gsub(/^[ \t]+|[ \t]+$/, "", $9); print $7 ":" $9; exit}')"
+                if [ -z "$pool_info" ]; then
+                  echo "Creating device pool on $node"
+                  linstor_cmd physical-storage create-device-pool lvm "$node" /dev/nvme0n1 --pool-name linstor --storage-pool lvm-thick
+                  continue
+                fi
+
+                total="${pool_info%%:*}"
+                pool_state="${pool_info##*:}"
+                if [ -z "$total" ] || [ "$total" = "0KiB" ]; then
+                  echo "Recreating empty pool on $node (state=$pool_state)"
+                  linstor_cmd storage-pool delete -n "$node" lvm-thick || true
+                  linstor_cmd physical-storage create-device-pool lvm "$node" /dev/nvme0n1 --pool-name linstor --storage-pool lvm-thick
+                else
+                  echo "Pool on $node has capacity ${total}; leaving as-is"
+                fi
+              done
+
+              if [ "$offline" -ne 0 ]; then
+                echo "WARN: Some nodes were offline; rerun once they are online."
+              fi
