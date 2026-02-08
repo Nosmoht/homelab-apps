@@ -11,7 +11,7 @@ spec:
   source:
     path: overlays/homelab/node-feature-discovery
     repoURL: https://github.com/Nosmoht/homelab-apps.git
-    targetRevision: HEAD
+    targetRevision: main
   syncPolicy:
     automated:
       prune: true

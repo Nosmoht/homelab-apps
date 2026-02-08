@@ -13,7 +13,7 @@ spec:
   source:
     path: overlays/homelab/piraeus-operator
     repoURL: https://github.com/Nosmoht/homelab-apps.git
-    targetRevision: HEAD
+    targetRevision: main
   syncPolicy:
     automated:
       prune: true
