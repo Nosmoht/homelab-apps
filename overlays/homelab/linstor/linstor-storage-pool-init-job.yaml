@@ -16,7 +16,7 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: LS_CONTROLLERS
-              value: linstor-controller.piraeus-datastore.svc:3370
+              value: https://linstor-controller.piraeus-datastore.svc:3371
           command:
             - /bin/sh
             - -c
@@ -24,10 +24,23 @@ spec:
               set -eu
 
               linstor_cmd() {
-                linstor --controllers "${LS_CONTROLLERS}" --no-color --no-utf8 "$@"
+                linstor --disable-config \
+                  --controllers "${LS_CONTROLLERS}" \
+                  --cafile /etc/linstor/client/ca.crt \
+                  --certfile /etc/linstor/client/tls.crt \
+                  --keyfile /etc/linstor/client/tls.key \
+                  --no-color --no-utf8 "$@"
               }
 
-              nodes="$(linstor_cmd node list -p | awk -F'|' 'NR>2 && $2 ~ /node-/ {gsub(/^[ \t]+|[ \t]+$/, "", $2); gsub(/^[ \t]+|[ \t]+$/, "", $5); print $2 ":" $5}')"
+              nodes=""
+              for i in $(seq 1 12); do
+                nodes="$(linstor_cmd node list -p | awk -F'|' 'NR>2 && $2 ~ /node-/ {gsub(/^[ \t]+|[ \t]+$/, "", $2); gsub(/^[ \t]+|[ \t]+$/, "", $5); print $2 ":" $5}')" || true
+                if [ -n "$nodes" ]; then
+                  break
+                fi
+                echo "Waiting for LINSTOR controller... ($i/12)"
+                sleep 5
+              done
               if [ -z "$nodes" ]; then
                 echo "No LINSTOR nodes found"
                 exit 1
@@ -64,3 +77,11 @@ spec:
               if [ "$offline" -ne 0 ]; then
                 echo "WARN: Some nodes were offline; rerun once they are online."
               fi
+          volumeMounts:
+            - name: linstor-client-tls
+              mountPath: /etc/linstor/client
+              readOnly: true
+      volumes:
+        - name: linstor-client-tls
+          secret:
+            secretName: linstor-client-tls
