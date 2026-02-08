@@ -14,7 +14,8 @@ spec:
         apiVersion: apps/v1
         kind: DaemonSet
         metadata:
-          name: linstor-satellite
+          labels:
+            app.kubernetes.io/component: linstor-satellite
         spec:
           template:
             spec:
@@ -44,7 +45,7 @@ spec:
                     type: DirectoryOrCreate
       target:
         kind: DaemonSet
-        name: linstor-satellite
+        labelSelector: app.kubernetes.io/component=linstor-satellite
   storagePools:
     - lvmPool:
         volumeGroup: linstor
