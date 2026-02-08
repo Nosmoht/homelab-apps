@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prometheus-operator
+  name: metallb
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-1"
+    argocd.argoproj.io/sync-wave: "-2"
 spec:
   destination:
-    namespace: monitoring
+    namespace: metallb-system
     name: homelab
   project: homelab
   source:
-    path: overlays/homelab/prometheus-operator
+    path: overlays/homelab/metallb
     repoURL: https://github.com/Nosmoht/homelab-apps.git
     targetRevision: HEAD
   syncPolicy:
@@ -20,4 +20,3 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - ServerSideApply=true

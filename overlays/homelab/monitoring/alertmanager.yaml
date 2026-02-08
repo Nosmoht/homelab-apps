@@ -12,6 +12,7 @@ metadata:
   labels:
     monitoring: default
 spec:
+  version: v0.31.0
   replicas: 1
   serviceAccountName: alertmanager
   securityContext:

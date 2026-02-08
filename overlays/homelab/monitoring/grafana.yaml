@@ -6,7 +6,11 @@ metadata:
   labels:
     app: grafana
 spec:
-  type: ClusterIP
+  type: LoadBalancer
+  # TODO: Adjust to a reserved homelab MetalLB IP.
+  loadBalancerIP: 10.0.0.70
+  annotations:
+    metallb.universe.tf/address-pool: homelab-monitoring
   ports:
     - name: http
       port: 3000
@@ -68,7 +72,7 @@ spec:
               mountPath: /etc/grafana/dashboards
       containers:
         - name: grafana
-          image: grafana/grafana:11.2.1
+          image: grafana/grafana:12.3.2
           ports:
             - name: http
               containerPort: 3000
@@ -79,6 +83,47 @@ spec:
                 - ALL
             runAsNonRoot: true
           env:
+            - name: GF_SERVER_DOMAIN
+              value: grafana.homelab.ntbc.io
+            - name: GF_SERVER_ROOT_URL
+              value: https://grafana.homelab.ntbc.io
+            - name: GF_SECURITY_COOKIE_SECURE
+              value: "true"
+            - name: GF_SECURITY_COOKIE_SAMESITE
+              value: lax
+            - name: GF_SECURITY_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-admin
+                  key: admin-user
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-admin
+                  key: admin-password
+            - name: GF_AUTH_GENERIC_OAUTH_ENABLED
+              value: "true"
+            - name: GF_AUTH_GENERIC_OAUTH_NAME
+              value: Dex
+            - name: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+              value: grafana
+            - name: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-oidc
+                  key: client-secret
+            - name: GF_AUTH_GENERIC_OAUTH_SCOPES
+              value: openid email profile groups
+            - name: GF_AUTH_GENERIC_OAUTH_AUTH_URL
+              value: https://dex.homelab.ntbc.io/auth
+            - name: GF_AUTH_GENERIC_OAUTH_TOKEN_URL
+              value: https://dex.homelab.ntbc.io/token
+            - name: GF_AUTH_GENERIC_OAUTH_API_URL
+              value: https://dex.homelab.ntbc.io/userinfo
+            - name: GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP
+              value: "true"
+            - name: GF_AUTH_DISABLE_LOGIN_FORM
+              value: "false"
           volumeMounts:
             - name: storage
               mountPath: /var/lib/grafana

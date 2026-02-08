@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: monitoring
 resources:
-  - ../../../base/prometheus-operator/v0.87.1
+  - ../../../base/prometheus-operator/v0.89.0
   - namespace.yaml
   - prometheus-rbac.yaml
   - prometheus.yaml
@@ -13,9 +13,17 @@ resources:
   - grafana-dashboard-providers.yaml
   - grafana-dashboards.yaml
   - grafana.yaml
+  - loki-config.yaml
+  - loki.yaml
+  - loki-servicemonitor.yaml
+  - promtail.yaml
   - node-exporter.yaml
   - kube-state-metrics.yaml
   - servicemonitors.yaml
+  - cilium-servicemonitors.yaml
   - kube-apiserver-servicemonitor.yaml
   - kubelet-servicemonitor.yaml
   - prometheus-rules.yaml
+generators:
+  - grafana-oidc-secret-generator.yaml
+  - grafana-admin-secret-generator.yaml
