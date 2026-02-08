@@ -24,7 +24,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              set -euo pipefail
+              set -uo pipefail
               linstor_cmd() {
                 linstor --no-color \
                   --controllers https://linstor-controller.piraeus-datastore.svc:3371 \
@@ -51,7 +51,13 @@ spec:
               vg_name="linstor"
               device="/dev/nvme0n1"
 
-              nodes_to_fix="$(linstor_cmd storage-pool list | awk -F'|' -v pool="$pool_name" '
+              storage_pool_output="$(linstor_cmd storage-pool list 2>/dev/null || true)"
+              if [ -z "$storage_pool_output" ]; then
+                echo "No storage pool output; exiting without changes."
+                exit 0
+              fi
+
+              nodes_to_fix="$(printf '%s\n' "$storage_pool_output" | awk -F'|' -v pool="$pool_name" '
                 $2 ~ pool {
                   node=$3; total=$7;
                   gsub(/^[ \t]+|[ \t]+$/, "", node);
@@ -64,7 +70,8 @@ spec:
                 exit 0
               fi
 
-              nodes_with_vols="$(linstor_cmd volume list | awk -F'|' '
+              volume_list_output="$(linstor_cmd volume list 2>/dev/null || true)"
+              nodes_with_vols="$(printf '%s\n' "$volume_list_output" | awk -F'|' '
                 NR>2 && $2 !~ /^-+$/ {
                   node=$3;
                   gsub(/^[ \t]+|[ \t]+$/, "", node);
