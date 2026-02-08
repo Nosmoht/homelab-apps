@@ -4,4 +4,4 @@ metadata:
   name: homelab
 spec:
   ipAddressPools:
-    - homelab-monitoring
+    - homelab
