@@ -44,7 +44,7 @@ spec:
                     type: DirectoryOrCreate
       target:
         kind: DaemonSet
-        name: linstor-satellite.*
+        labelSelector: app.kubernetes.io/component=linstor-satellite
   storagePools:
     - lvmPool:
         volumeGroup: linstor
