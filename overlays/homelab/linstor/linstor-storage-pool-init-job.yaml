@@ -64,9 +64,10 @@ spec:
                 fi
 
                 total="${pool_info%%:*}"
+                total_compact="$(echo "$total" | tr -d '[:space:]')"
                 pool_state="${pool_info##*:}"
-                if [ -z "$total" ] || [ "$total" = "0KiB" ]; then
-                  echo "Recreating empty pool on $node (state=$pool_state)"
+                if [ -z "$total_compact" ] || [ "$total_compact" = "0KiB" ] || [ "$total_compact" = "0B" ] || [ "$total_compact" = "0" ]; then
+                  echo "Recreating empty pool on $node (state=$pool_state, total=$total)"
                   linstor_cmd storage-pool delete -n "$node" lvm-thick || true
                   linstor_cmd physical-storage create-device-pool lvm "$node" /dev/nvme0n1 --pool-name linstor --storage-pool lvm-thick
                 else
