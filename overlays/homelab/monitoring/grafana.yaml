@@ -63,6 +63,11 @@ spec:
                       -e 's/${VAR_DATASOURCE}/prometheus/g' \
                       "/var/lib/grafana/dashboards/${name}.json"
                     ;;
+                  cert-manager)
+                    sed -i \
+                      -e 's|"regex": "/k8s.*/"|"regex": ""|g' \
+                      "/var/lib/grafana/dashboards/${name}.json"
+                    ;;
                 esac
               done < /etc/grafana/dashboards/dashboards.txt
           volumeMounts:
