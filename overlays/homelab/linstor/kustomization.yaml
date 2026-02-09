@@ -10,3 +10,6 @@ resources:
   - linstor-storage-pool-autovg-job.yaml
   - storage-classes.yaml
   - servicemonitor.yaml
+  - drbd-reactor-service.yaml
+  - drbd-reactor-servicemonitor.yaml
+  - drbd-reactor-service.yaml
