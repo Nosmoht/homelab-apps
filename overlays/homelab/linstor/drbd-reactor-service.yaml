@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: drbd-reactor
+  namespace: piraeus-datastore
+  labels:
+    app: drbd-reactor
+spec:
+  ports:
+    - name: metrics
+      port: 9942
+      targetPort: 9942
+  selector:
+    app.kubernetes.io/component: linstor-satellite
+    app.kubernetes.io/instance: homelab
