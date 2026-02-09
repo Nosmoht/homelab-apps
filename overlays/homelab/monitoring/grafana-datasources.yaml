@@ -7,13 +7,13 @@ data:
   datasources.yaml: |
     apiVersion: 1
     datasources:
-      - name: Prometheus
+      - name: prometheus
         type: prometheus
         access: proxy
         uid: prometheus
         url: http://prometheus-operated.monitoring.svc:9090
         isDefault: true
-      - name: Loki
+      - name: loki
         type: loki
         access: proxy
         uid: loki
