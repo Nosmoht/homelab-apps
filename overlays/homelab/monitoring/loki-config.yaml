@@ -33,6 +33,7 @@ data:
     compactor:
       working_directory: /var/loki/compactor
       retention_enabled: true
+      delete_request_store: filesystem
     ruler:
       storage:
         type: local
