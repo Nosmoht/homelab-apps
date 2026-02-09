@@ -123,3 +123,21 @@ spec:
           annotations:
             summary: PVC usage is high
             description: PVC has less than 10% free space.
+    - name: k8s-mixin-recording
+      rules:
+        - record: node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate
+          expr: sum by (namespace, pod, container) (rate(container_cpu_usage_seconds_total{job="kubelet", metrics_path="/metrics/cadvisor", image!=""}[5m]))
+        - record: :node_memory_MemAvailable_bytes:sum
+          expr: sum(node_memory_MemAvailable_bytes)
+        - record: kube_pod_container_resource_requests_cpu_cores
+          expr: kube_pod_container_resource_requests{resource="cpu", unit="core"}
+        - record: kube_pod_container_resource_limits_cpu_cores
+          expr: kube_pod_container_resource_limits{resource="cpu", unit="core"}
+        - record: kube_pod_container_resource_requests_memory_bytes
+          expr: kube_pod_container_resource_requests{resource="memory", unit="byte"}
+        - record: kube_pod_container_resource_limits_memory_bytes
+          expr: kube_pod_container_resource_limits{resource="memory", unit="byte"}
+        - record: kube_node_status_allocatable_cpu_cores
+          expr: kube_node_status_allocatable{resource="cpu", unit="core"}
+        - record: kube_node_status_allocatable_memory_bytes
+          expr: kube_node_status_allocatable{resource="memory", unit="byte"}

@@ -20,3 +20,10 @@ spec:
       bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
       tlsConfig:
         insecureSkipVerify: true
+    - port: https-metrics
+      scheme: https
+      path: /metrics/cadvisor
+      interval: 30s
+      bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      tlsConfig:
+        insecureSkipVerify: true
