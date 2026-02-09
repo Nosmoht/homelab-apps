@@ -11,6 +11,8 @@ spec:
   serviceAccountName: prometheus
   externalLabels:
     cluster: homelab
+  enableFeatures:
+    - endpoint-slice
   securityContext:
     runAsUser: 65534
     runAsGroup: 65534
