@@ -12,4 +12,3 @@ resources:
   - servicemonitor.yaml
   - drbd-reactor-service.yaml
   - drbd-reactor-servicemonitor.yaml
-  - drbd-reactor-service.yaml
