@@ -6,6 +6,9 @@ metadata:
 data:
   datasources.yaml: |
     apiVersion: 1
+    deleteDatasources:
+      - name: Prometheus
+      - name: Loki
     datasources:
       - name: prometheus
         type: prometheus
