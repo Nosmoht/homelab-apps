@@ -11,6 +11,7 @@ spec:
   serviceAccountName: prometheus
   externalLabels:
     cluster: homelab
+  serviceDiscoveryRole: EndpointSlice
   enableFeatures:
     - endpoint-slice
   securityContext:
