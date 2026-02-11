@@ -1,0 +1,107 @@
+prometheus:
+  prometheusSpec:
+    replicas: 2
+    retention: 15d
+    externalLabels:
+      cluster: homelab
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
+    podMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelector: {}
+    probeSelectorNilUsesHelmValues: false
+    probeSelector: {}
+    ruleSelectorNilUsesHelmValues: false
+    ruleSelector: {}
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: linstor-csi
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 50Gi
+
+alertmanager:
+  alertmanagerSpec:
+    replicas: 3
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: linstor-csi
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 5Gi
+
+kube-state-metrics:
+  replicas: 2
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: kube-state-metrics
+          topologyKey: kubernetes.io/hostname
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: DoNotSchedule
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: kube-state-metrics
+
+prometheusOperator:
+  enabled: true
+
+grafana:
+  defaultDashboardsEnabled: true
+  replicas: 2
+  service:
+    type: LoadBalancer
+    loadBalancerIP: 10.0.0.70
+    sessionAffinity: ClientIP
+    annotations:
+      metallb.universe.tf/address-pool: homelab
+  envValueFrom:
+    GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET:
+      secretKeyRef:
+        name: grafana-oidc
+        key: client-secret
+  grafana.ini:
+    server:
+      domain: grafana.homelab.ntbc.io
+      root_url: https://grafana.homelab.ntbc.io
+    security:
+      disable_initial_admin_creation: true
+      cookie_secure: true
+      cookie_samesite: lax
+    auth:
+      disable_login_form: true
+    auth.generic_oauth:
+      enabled: true
+      name: Dex
+      client_id: grafana
+      client_secret: ${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
+      scopes: openid email profile groups
+      auth_url: https://dex.homelab.ntbc.io/auth
+      token_url: https://dex.homelab.ntbc.io/token
+      api_url: https://dex.homelab.ntbc.io/userinfo
+      allow_sign_up: true
+      role_attribute_path: email=='thomas.krahn.tk@gmail.com' && 'Admin' || 'Viewer'
+      role_attribute_strict: true
+      skip_org_role_sync: false
+  additionalDataSources:
+    - name: Loki
+      uid: loki
+      type: loki
+      access: proxy
+      url: http://loki.monitoring.svc:3100
