@@ -7,19 +7,21 @@ metadata:
   namespace: argocd
 spec:
   clusterResourceWhitelist:
-  - group: '*'
-    kind: '*'
+    - group: '*'
+      kind: '*'
   description: Homelab
   destinationServiceAccounts:
-  - defaultServiceAccount: homelab
-    namespace: '*'
-    server: https://10.0.0.10:6443
+    - defaultServiceAccount: homelab
+      namespace: '*'
+      server: https://10.0.0.10:6443
   destinations:
-  - name: homelab
-    namespace: '*'
-    server: https://10.0.0.10:6443
+    - name: homelab
+      namespace: '*'
+      server: https://10.0.0.10:6443
   namespaceResourceWhitelist:
-  - group: '*'
-    kind: '*'
+    - group: '*'
+      kind: '*'
   sourceRepos:
-  - https://github.com/Nosmoht/homelab-apps.git
+    - https://github.com/Nosmoht/homelab-apps.git
+    - https://prometheus-community.github.io/helm-charts
+    - https://grafana.github.io/helm-charts
