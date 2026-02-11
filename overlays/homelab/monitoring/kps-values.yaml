@@ -2,6 +2,7 @@ prometheus:
   prometheusSpec:
     replicas: 2
     retention: 15d
+    serviceDiscoveryRole: EndpointSlice
     externalLabels:
       cluster: homelab
     serviceMonitorSelectorNilUsesHelmValues: false
@@ -40,12 +41,7 @@ alertmanager:
               storage: 5Gi
 
 kubeEtcd:
-  endpoints:
-    - 10.0.0.11
-    - 10.0.0.12
-    - 10.0.0.13
-  service:
-    selector: {}
+  enabled: false
 
 kube-state-metrics:
   replicas: 2

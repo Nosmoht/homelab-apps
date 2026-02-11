@@ -31,6 +31,9 @@ spec:
     - repoURL: https://github.com/Nosmoht/homelab-apps.git
       targetRevision: main
       path: overlays/homelab/monitoring
+    - repoURL: https://github.com/Nosmoht/homelab-apps.git
+      targetRevision: main
+      path: overlays/homelab/monitoring-kube-system
   syncPolicy:
     automated:
       prune: true
