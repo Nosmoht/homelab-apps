@@ -10,6 +10,19 @@ resources:
   - etcd-servicemonitor.yaml
   - oauth2-proxy-prometheus.yaml
   - oauth2-proxy-alertmanager.yaml
+configMapGenerator:
+  - name: grafana-dashboard-etcd-custom
+    files:
+      - dashboards/etcd.json
+    options:
+      labels:
+        grafana_dashboard: "1"
+  - name: grafana-dashboard-cert-manager-custom
+    files:
+      - dashboards/cert-manager.json
+    options:
+      labels:
+        grafana_dashboard: "1"
 generators:
   - grafana-oidc-secret-generator.yaml
   - oauth2-proxy-secrets-generator.yaml
