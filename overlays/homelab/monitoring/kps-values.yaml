@@ -42,7 +42,6 @@ alertmanager:
 kube-state-metrics:
   replicas: 2
   podDisruptionBudget:
-    enabled: true
     minAvailable: 1
   affinity:
     podAntiAffinity:
@@ -70,7 +69,7 @@ grafana:
     loadBalancerIP: 10.0.0.70
     sessionAffinity: ClientIP
     annotations:
-      metallb.universe.tf/address-pool: homelab
+      metallb.io/address-pool: homelab
   envValueFrom:
     GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET:
       secretKeyRef:
