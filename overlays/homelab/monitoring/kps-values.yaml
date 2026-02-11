@@ -75,6 +75,8 @@ grafana:
       secretKeyRef:
         name: grafana-oidc
         key: client-secret
+  env:
+    GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: "true"
   grafana.ini:
     server:
       domain: grafana.homelab.ntbc.io
