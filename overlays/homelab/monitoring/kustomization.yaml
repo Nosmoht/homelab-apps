@@ -23,6 +23,18 @@ configMapGenerator:
     options:
       labels:
         grafana_dashboard: "1"
+  - name: grafana-dashboard-nvidia-dcgm
+    files:
+      - dashboards/nvidia-dcgm.json
+    options:
+      labels:
+        grafana_dashboard: "1"
+  - name: grafana-dashboard-nvidia-gpu-metrics
+    files:
+      - dashboards/nvidia-gpu-metrics.json
+    options:
+      labels:
+        grafana_dashboard: "1"
 generators:
   - grafana-oidc-secret-generator.yaml
   - oauth2-proxy-secrets-generator.yaml
