@@ -49,7 +49,7 @@ spec:
           effect: NoSchedule
       containers:
         - name: exporter
-          image: nvcr.io/nvidia/k8s/dcgm-exporter:2.2.9-2.4.0-ubuntu18.04
+          image: nvcr.io/nvidia/k8s/dcgm-exporter:4.5.1-4.8.0-distroless
           imagePullPolicy: IfNotPresent
           args:
             - -f
