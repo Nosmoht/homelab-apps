@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nvidia-runtimeclass
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  destination:
+    namespace: kube-system
+    name: homelab
+  project: homelab
+  source:
+    path: overlays/homelab/nvidia-runtimeclass
+    repoURL: https://github.com/Nosmoht/homelab-apps.git
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
