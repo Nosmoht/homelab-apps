@@ -85,6 +85,7 @@ grafana:
     datasources:
       initDatasources: true
       skipReload: true
+      watchMethod: LIST
   grafana.ini:
     server:
       domain: grafana.homelab.ntbc.io
