@@ -105,11 +105,6 @@ grafana:
       role_attribute_strict: true
       skip_org_role_sync: false
   additionalDataSources:
-    - name: ${DS_PROMETHEUS}
-      uid: ds_prometheus_legacy
-      type: prometheus
-      access: proxy
-      url: http://monitoring-kube-prometheus-prometheus.monitoring:9090/
     - name: Loki
       uid: loki
       type: loki
