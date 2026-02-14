@@ -35,6 +35,12 @@ configMapGenerator:
     options:
       labels:
         grafana_dashboard: "1"
+  - name: grafana-dashboard-cilium-hubble
+    files:
+      - dashboards/cilium-hubble.json
+    options:
+      labels:
+        grafana_dashboard: "1"
 generators:
   - grafana-oidc-secret-generator.yaml
   - oauth2-proxy-secrets-generator.yaml
