@@ -105,7 +105,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_index{uuid=\"$gpu\"}",
+          "expr": "DCGM_FI_DEV_GPU_UTIL{UUID=\"$gpu\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "{{name}}",
@@ -169,7 +169,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_utilization_gpu_ratio{uuid=\"$gpu\"}",
+          "expr": "(DCGM_FI_DEV_GPU_UTIL/100){UUID=\"$gpu\"}",
           "interval": "",
           "legendFormat": "{{uuid}}",
           "refId": "A"
@@ -231,7 +231,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_utilization_memory_ratio{uuid=\"$gpu\"}",
+          "expr": "(DCGM_FI_DEV_MEM_COPY_UTIL/100){UUID=\"$gpu\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -292,7 +292,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_fan_speed_ratio{uuid=\"$gpu\"}",
+          "expr": "(DCGM_FI_DEV_ENC_UTIL/100){UUID=\"$gpu\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -356,7 +356,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_temperature_gpu{uuid=\"$gpu\"}",
+          "expr": "DCGM_FI_DEV_GPU_TEMP{UUID=\"$gpu\"}",
           "interval": "",
           "legendFormat": "{{uuid}}",
           "refId": "A"
@@ -417,7 +417,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_clocks_current_graphics_clock_hz{uuid=\"$gpu\"}",
+          "expr": "DCGM_FI_DEV_SM_CLOCK{UUID=\"$gpu\"}",
           "format": "time_series",
           "interval": "",
           "legendFormat": "{{uuid}}",
@@ -516,7 +516,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_driver_version{uuid=\"$gpu\"}",
+          "expr": "DCGM_FI_DEV_GPU_UTIL{UUID=\"$gpu\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -585,7 +585,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_pstate{uuid=\"$gpu\"}",
+          "expr": "DCGM_FI_DEV_GPU_UTIL{UUID=\"$gpu\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -648,7 +648,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_clocks_current_graphics_clock_hz{uuid=\"$gpu\"} / nvidia_smi_clocks_max_graphics_clock_hz{uuid=\"$gpu\"}",
+          "expr": "DCGM_FI_DEV_SM_CLOCK{UUID=\"$gpu\"} / DCGM_FI_DEV_SM_CLOCK{UUID=\"$gpu\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -710,7 +710,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_power_draw_watts{uuid=\"$gpu\"} / nvidia_smi_power_limit_watts{uuid=\"$gpu\"}",
+          "expr": "DCGM_FI_DEV_POWER_USAGE{UUID=\"$gpu\"} / DCGM_FI_DEV_POWER_USAGE{UUID=\"$gpu\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -768,7 +768,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_utilization_memory_ratio{uuid=\"$gpu\"}",
+          "expr": "(DCGM_FI_DEV_MEM_COPY_UTIL/100){UUID=\"$gpu\"}",
           "interval": "",
           "legendFormat": "{{uuid}}",
           "refId": "A"
@@ -886,7 +886,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_fan_speed_ratio{uuid=\"$gpu\"}",
+          "expr": "(DCGM_FI_DEV_ENC_UTIL/100){UUID=\"$gpu\"}",
           "interval": "",
           "legendFormat": "{{uuid}}",
           "refId": "A"
@@ -1003,7 +1003,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_utilization_gpu_ratio{uuid=\"$gpu\"}",
+          "expr": "(DCGM_FI_DEV_GPU_UTIL/100){UUID=\"$gpu\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -1121,7 +1121,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_temperature_gpu{uuid=\"$gpu\"}",
+          "expr": "DCGM_FI_DEV_GPU_TEMP{UUID=\"$gpu\"}",
           "interval": "",
           "legendFormat": "{{uuid}}",
           "refId": "A"
@@ -1239,7 +1239,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_clocks_current_video_clock_hz{uuid=\"$gpu\"}",
+          "expr": "DCGM_FI_DEV_SM_CLOCK{UUID=\"$gpu\"}",
           "format": "time_series",
           "interval": "",
           "legendFormat": "{{uuid}}",
@@ -1339,7 +1339,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_power_draw_watts{uuid=\"$gpu\"}",
+          "expr": "DCGM_FI_DEV_POWER_USAGE{UUID=\"$gpu\"}",
           "interval": "",
           "legendFormat": "{{uuid}}",
           "refId": "A"
@@ -1436,7 +1436,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_clocks_current_memory_clock_hz{uuid=\"$gpu\"}",
+          "expr": "DCGM_FI_DEV_MEM_CLOCK{UUID=\"$gpu\"}",
           "format": "time_series",
           "interval": "",
           "legendFormat": "{{uuid}}",
@@ -1535,7 +1535,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "nvidia_smi_memory_used_bytes{uuid=\"$gpu\"}",
+          "expr": "DCGM_FI_DEV_FB_USED{UUID=\"$gpu\"}",
           "interval": "",
           "legendFormat": "{{uuid}}",
           "refId": "A"
@@ -1599,8 +1599,8 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
-        "definition": "label_values(nvidia_smi_index, uuid)",
+        "datasource": "Prometheus",
+        "definition": "label_values(DCGM_FI_DEV_GPU_UTIL, UUID)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -1610,7 +1610,7 @@
         "name": "gpu",
         "options": [],
         "query": {
-          "query": "label_values(nvidia_smi_index, uuid)",
+          "query": "label_values(DCGM_FI_DEV_GPU_UTIL, UUID)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
