@@ -25,3 +25,5 @@ spec:
     - https://github.com/Nosmoht/homelab-apps.git
     - https://prometheus-community.github.io/helm-charts
     - https://grafana.github.io/helm-charts
+    - https://nvidia.github.io/k8s-device-plugin
+    - https://nvidia.github.io/gpu-monitoring-tools/helm-charts
