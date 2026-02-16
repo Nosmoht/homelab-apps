@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-gpu-storage-pv-1
+spec:
+  capacity:
+    storage: 150Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-gpu-storage
+  local:
+    path: /var/mnt/u-local-storage
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - node-gpu-01
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-gpu-storage-pv-2
+spec:
+  capacity:
+    storage: 150Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-gpu-storage
+  local:
+    path: /var/mnt/u-local-storage
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - node-gpu-01
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-gpu-storage-pv-3
+spec:
+  capacity:
+    storage: 150Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-gpu-storage
+  local:
+    path: /var/mnt/u-local-storage
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - node-gpu-01
