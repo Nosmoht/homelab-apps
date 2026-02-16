@@ -5,6 +5,8 @@ metadata:
     app.kubernetes.io/instance: homelab-apps
   name: homelab
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
 spec:
   clusterResourceWhitelist:
     - group: '*'
@@ -27,3 +29,4 @@ spec:
     - https://grafana.github.io/helm-charts
     - https://nvidia.github.io/k8s-device-plugin
     - https://cloudnative-pg.github.io/charts
+    - https://cloudnative-pg.github.io/charts*
