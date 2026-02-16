@@ -26,3 +26,4 @@ spec:
     - https://prometheus-community.github.io/helm-charts
     - https://grafana.github.io/helm-charts
     - https://nvidia.github.io/k8s-device-plugin
+    - https://cloudnative-pg.github.io/charts
