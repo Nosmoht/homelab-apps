@@ -1,5 +1,6 @@
 prometheus:
   prometheusSpec:
+    enableRemoteWriteReceiver: true
     replicas: 2
     retention: 15d
     serviceDiscoveryRole: EndpointSlice
@@ -81,11 +82,6 @@ grafana:
         key: client-secret
   env:
     GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: "true"
-  sidecar:
-    datasources:
-      initDatasources: true
-      skipReload: true
-      watchMethod: LIST
   grafana.ini:
     server:
       domain: grafana.homelab.ntbc.io

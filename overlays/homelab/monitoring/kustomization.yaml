@@ -10,6 +10,7 @@ resources:
   - etcd-servicemonitor.yaml
   - oauth2-proxy-prometheus.yaml
   - oauth2-proxy-alertmanager.yaml
+  - prometheus-remote-write-internal.yaml
 configMapGenerator:
   - name: grafana-dashboard-etcd-custom
     files:
