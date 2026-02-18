@@ -959,7 +959,7 @@
           "type": "prometheus",
           "uid": "prometheus"
         },
-        "definition": "label_values(DCGM_FI_DEV_GPU_UTIL, Hostname)",
+        "definition": "query_result(max by (Hostname) (DCGM_FI_DEV_GPU_UTIL))",
         "hide": 0,
         "includeAll": true,
         "index": -1,
@@ -967,9 +967,9 @@
         "multi": false,
         "name": "hostname",
         "options": [],
-        "query": "label_values(DCGM_FI_DEV_GPU_UTIL, Hostname)",
-        "refresh": 1,
-        "regex": "",
+        "query": "query_result(max by (Hostname) (DCGM_FI_DEV_GPU_UTIL))",
+        "refresh": 2,
+        "regex": "/.*Hostname=\"([^\"]+)\".*/",
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
@@ -985,7 +985,7 @@
           "type": "prometheus",
           "uid": "prometheus"
         },
-        "definition": "label_values(DCGM_FI_DEV_GPU_UTIL{Hostname=~\"${hostname:regex}\"}, gpu)",
+        "definition": "query_result(max by (gpu) (DCGM_FI_DEV_GPU_UTIL{Hostname=~\"${hostname:regex}\"}))",
         "hide": 0,
         "includeAll": true,
         "index": -1,
@@ -993,9 +993,9 @@
         "multi": false,
         "name": "gpu",
         "options": [],
-        "query": "label_values(DCGM_FI_DEV_GPU_UTIL{Hostname=~\"${hostname:regex}\"}, gpu)",
-        "refresh": 1,
-        "regex": "",
+        "query": "query_result(max by (gpu) (DCGM_FI_DEV_GPU_UTIL{Hostname=~\"${hostname:regex}\"}))",
+        "refresh": 2,
+        "regex": "/.*gpu=\"([^\"]+)\".*/",
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
@@ -1030,5 +1030,5 @@
   "variables": {
     "list": []
   },
-  "version": 1
+  "version": 2
 }
