@@ -93,7 +93,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_GPU_TEMP{Hostname=~\"$hostname\"}",
+          "expr": "DCGM_FI_DEV_GPU_TEMP{Hostname=~\"${hostname:regex}|.*\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "{{Hostname}} GPU {{gpu}}",
@@ -194,7 +194,7 @@
       "pluginVersion": "6.7.3",
       "targets": [
         {
-          "expr": "avg(DCGM_FI_DEV_GPU_TEMP{Hostname=~\"$hostname\"})",
+          "expr": "avg(DCGM_FI_DEV_GPU_TEMP{Hostname=~\"${hostname:regex}|.*\"})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -252,7 +252,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_POWER_USAGE{Hostname=~\"$hostname\"}",
+          "expr": "DCGM_FI_DEV_POWER_USAGE{Hostname=~\"${hostname:regex}|.*\"}",
           "interval": "",
           "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
@@ -372,7 +372,7 @@
       "pluginVersion": "6.7.3",
       "targets": [
         {
-          "expr": "sum(DCGM_FI_DEV_POWER_USAGE{Hostname=~\"$hostname\"})",
+          "expr": "sum(DCGM_FI_DEV_POWER_USAGE{Hostname=~\"${hostname:regex}|.*\"})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -431,7 +431,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_SM_CLOCK{Hostname=~\"$hostname\"}",
+          "expr": "DCGM_FI_DEV_SM_CLOCK{Hostname=~\"${hostname:regex}|.*\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -527,7 +527,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_MEM_CLOCK{Hostname=~\"$hostname\"}",
+          "expr": "DCGM_FI_DEV_MEM_CLOCK{Hostname=~\"${hostname:regex}|.*\"}",
           "interval": "",
           "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
@@ -620,7 +620,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_GPU_UTIL{Hostname=~\"$hostname\"}",
+          "expr": "DCGM_FI_DEV_GPU_UTIL{Hostname=~\"${hostname:regex}|.*\"}",
           "interval": "",
           "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
@@ -713,7 +713,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_MEM_COPY_UTIL{Hostname=~\"$hostname\"}",
+          "expr": "DCGM_FI_DEV_MEM_COPY_UTIL{Hostname=~\"${hostname:regex}|.*\"}",
           "interval": "",
           "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
@@ -805,7 +805,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_FB_USED{Hostname=~\"$hostname\"}",
+          "expr": "DCGM_FI_DEV_FB_USED{Hostname=~\"${hostname:regex}|.*\"}",
           "interval": "",
           "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
@@ -898,7 +898,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_FB_USED{Hostname=~\"$hostname\"}",
+          "expr": "DCGM_FI_DEV_FB_USED{Hostname=~\"${hostname:regex}|.*\"}",
           "interval": "",
           "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
