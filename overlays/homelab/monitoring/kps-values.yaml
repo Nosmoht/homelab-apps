@@ -114,6 +114,8 @@ grafana:
   sidecar:
     datasources:
       url: http://thanos-query.monitoring.svc:9090/
+      initDatasources: true
+      skipReload: true
   additionalDataSources:
     - name: prometheus
       uid: prometheus-legacy
