@@ -10,6 +10,8 @@ resources:
   - etcd-servicemonitor.yaml
   - oauth2-proxy-prometheus.yaml
   - oauth2-proxy-alertmanager.yaml
+  - prometheus-remote-write-internal.yaml
+  - thanos-query.yaml
 configMapGenerator:
   - name: grafana-dashboard-etcd-custom
     files:
@@ -26,12 +28,6 @@ configMapGenerator:
   - name: grafana-dashboard-nvidia-dcgm
     files:
       - dashboards/nvidia-dcgm.json
-    options:
-      labels:
-        grafana_dashboard: "1"
-  - name: grafana-dashboard-nvidia-gpu-metrics
-    files:
-      - dashboards/nvidia-gpu-metrics.json
     options:
       labels:
         grafana_dashboard: "1"
