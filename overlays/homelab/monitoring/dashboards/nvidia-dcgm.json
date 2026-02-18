@@ -93,7 +93,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_GPU_TEMP{Hostname=~\"${hostname:regex}|.*\"}",
+          "expr": "DCGM_FI_DEV_GPU_TEMP{Hostname=~\"${hostname:regex}\",gpu=~\"${gpu:regex}\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "{{Hostname}} GPU {{gpu}}",
@@ -194,7 +194,7 @@
       "pluginVersion": "6.7.3",
       "targets": [
         {
-          "expr": "avg(DCGM_FI_DEV_GPU_TEMP{Hostname=~\"${hostname:regex}|.*\"})",
+          "expr": "avg(DCGM_FI_DEV_GPU_TEMP{Hostname=~\"${hostname:regex}\",gpu=~\"${gpu:regex}\"})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -252,7 +252,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_POWER_USAGE{Hostname=~\"${hostname:regex}|.*\"}",
+          "expr": "DCGM_FI_DEV_POWER_USAGE{Hostname=~\"${hostname:regex}\",gpu=~\"${gpu:regex}\"}",
           "interval": "",
           "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
@@ -372,7 +372,7 @@
       "pluginVersion": "6.7.3",
       "targets": [
         {
-          "expr": "sum(DCGM_FI_DEV_POWER_USAGE{Hostname=~\"${hostname:regex}|.*\"})",
+          "expr": "sum(DCGM_FI_DEV_POWER_USAGE{Hostname=~\"${hostname:regex}\",gpu=~\"${gpu:regex}\"})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -431,7 +431,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_SM_CLOCK{Hostname=~\"${hostname:regex}|.*\"}",
+          "expr": "DCGM_FI_DEV_SM_CLOCK{Hostname=~\"${hostname:regex}\",gpu=~\"${gpu:regex}\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -527,7 +527,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_MEM_CLOCK{Hostname=~\"${hostname:regex}|.*\"}",
+          "expr": "DCGM_FI_DEV_MEM_CLOCK{Hostname=~\"${hostname:regex}\",gpu=~\"${gpu:regex}\"}",
           "interval": "",
           "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
@@ -620,7 +620,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_GPU_UTIL{Hostname=~\"${hostname:regex}|.*\"}",
+          "expr": "DCGM_FI_DEV_GPU_UTIL{Hostname=~\"${hostname:regex}\",gpu=~\"${gpu:regex}\"}",
           "interval": "",
           "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
@@ -713,7 +713,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_MEM_COPY_UTIL{Hostname=~\"${hostname:regex}|.*\"}",
+          "expr": "DCGM_FI_DEV_MEM_COPY_UTIL{Hostname=~\"${hostname:regex}\",gpu=~\"${gpu:regex}\"}",
           "interval": "",
           "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
@@ -805,7 +805,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_FB_USED{Hostname=~\"${hostname:regex}|.*\"}",
+          "expr": "DCGM_FI_DEV_FB_USED{Hostname=~\"${hostname:regex}\",gpu=~\"${gpu:regex}\"}",
           "interval": "",
           "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
@@ -898,7 +898,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_FB_USED{Hostname=~\"${hostname:regex}|.*\"}",
+          "expr": "DCGM_FI_DEV_FB_USED{Hostname=~\"${hostname:regex}\",gpu=~\"${gpu:regex}\"}",
           "interval": "",
           "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
@@ -979,21 +979,21 @@
         "useTags": false
       },
       {
-        "allValue": null,
+        "allValue": ".*",
         "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "prometheus"
         },
-        "definition": "label_values(DCGM_FI_DEV_GPU_UTIL, gpu)",
+        "definition": "label_values(DCGM_FI_DEV_GPU_UTIL{Hostname=~\"${hostname:regex}\"}, gpu)",
         "hide": 0,
-        "includeAll": false,
+        "includeAll": true,
         "index": -1,
-        "label": null,
+        "label": "GPU",
         "multi": false,
         "name": "gpu",
         "options": [],
-        "query": "label_values(DCGM_FI_DEV_GPU_UTIL, gpu)",
+        "query": "label_values(DCGM_FI_DEV_GPU_UTIL{Hostname=~\"${hostname:regex}\"}, gpu)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
