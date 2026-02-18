@@ -11,6 +11,7 @@ resources:
   - oauth2-proxy-prometheus.yaml
   - oauth2-proxy-alertmanager.yaml
   - prometheus-remote-write-internal.yaml
+  - thanos-query.yaml
 configMapGenerator:
   - name: grafana-dashboard-etcd-custom
     files:
