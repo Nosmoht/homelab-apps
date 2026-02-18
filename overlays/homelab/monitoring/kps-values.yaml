@@ -1,5 +1,10 @@
 prometheus:
+  thanosService:
+    enabled: true
+  thanosServiceMonitor:
+    enabled: true
   prometheusSpec:
+    enableRemoteWriteReceiver: true
     replicas: 2
     retention: 15d
     serviceDiscoveryRole: EndpointSlice
@@ -26,6 +31,8 @@ prometheus:
           resources:
             requests:
               storage: 50Gi
+    thanos:
+      image: quay.io/thanos/thanos:v0.40.1
 
 alertmanager:
   alertmanagerSpec:
@@ -104,7 +111,22 @@ grafana:
       role_attribute_path: email=='thomas.krahn.tk@gmail.com' && 'Admin' || 'Viewer'
       role_attribute_strict: true
       skip_org_role_sync: false
+  sidecar:
+    datasources:
+      url: http://thanos-query.monitoring.svc:9090/
+      initDatasources: true
+      skipReload: true
   additionalDataSources:
+    - name: prometheus
+      uid: prometheus-legacy
+      type: prometheus
+      access: proxy
+      url: http://thanos-query.monitoring.svc:9090
+    - name: default
+      uid: default
+      type: prometheus
+      access: proxy
+      url: http://thanos-query.monitoring.svc:9090
     - name: Loki
       uid: loki
       type: loki
