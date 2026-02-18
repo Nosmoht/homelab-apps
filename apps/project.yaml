@@ -30,3 +30,5 @@ spec:
     - https://nvidia.github.io/k8s-device-plugin
     - https://cloudnative-pg.github.io/charts
     - https://cloudnative-pg.github.io/charts*
+    - https://ot-container-kit.github.io/helm-charts
+    - https://ot-container-kit.github.io/helm-charts*
