@@ -116,7 +116,8 @@ grafana:
       url: http://thanos-query.monitoring.svc:9090/
       initDatasources: true
       skipReload: true
-      watchMethod: LIST
+      env:
+        METHOD: LIST
   additionalDataSources:
     - name: prometheus
       uid: prometheus-legacy
