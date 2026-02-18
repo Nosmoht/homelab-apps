@@ -93,10 +93,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_GPU_TEMP",
+          "expr": "DCGM_FI_DEV_GPU_TEMP{Hostname=~\"$hostname\"}",
           "instant": true,
           "interval": "",
-          "legendFormat": "GPU {{gpu}}",
+          "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
         }
       ],
@@ -194,7 +194,7 @@
       "pluginVersion": "6.7.3",
       "targets": [
         {
-          "expr": "avg(DCGM_FI_DEV_GPU_TEMP)",
+          "expr": "avg(DCGM_FI_DEV_GPU_TEMP{Hostname=~\"$hostname\"})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -252,9 +252,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_POWER_USAGE",
+          "expr": "DCGM_FI_DEV_POWER_USAGE{Hostname=~\"$hostname\"}",
           "interval": "",
-          "legendFormat": "GPU {{gpu}}",
+          "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
         }
       ],
@@ -372,7 +372,7 @@
       "pluginVersion": "6.7.3",
       "targets": [
         {
-          "expr": "sum(DCGM_FI_DEV_POWER_USAGE)",
+          "expr": "sum(DCGM_FI_DEV_POWER_USAGE{Hostname=~\"$hostname\"})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -431,11 +431,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_SM_CLOCK",
+          "expr": "DCGM_FI_DEV_SM_CLOCK{Hostname=~\"$hostname\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "GPU {{gpu}}",
+          "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
         }
       ],
@@ -527,9 +527,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_MEM_CLOCK",
+          "expr": "DCGM_FI_DEV_MEM_CLOCK{Hostname=~\"$hostname\"}",
           "interval": "",
-          "legendFormat": "GPU {{gpu}}",
+          "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
         }
       ],
@@ -620,9 +620,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_GPU_UTIL",
+          "expr": "DCGM_FI_DEV_GPU_UTIL{Hostname=~\"$hostname\"}",
           "interval": "",
-          "legendFormat": "GPU {{gpu}}",
+          "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
         }
       ],
@@ -713,9 +713,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_MEM_COPY_UTIL",
+          "expr": "DCGM_FI_DEV_MEM_COPY_UTIL{Hostname=~\"$hostname\"}",
           "interval": "",
-          "legendFormat": "GPU {{gpu}}",
+          "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
         }
       ],
@@ -805,9 +805,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_FB_USED",
+          "expr": "DCGM_FI_DEV_FB_USED{Hostname=~\"$hostname\"}",
           "interval": "",
-          "legendFormat": "GPU {{gpu}}",
+          "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
         }
       ],
@@ -898,9 +898,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "DCGM_FI_DEV_FB_USED",
+          "expr": "DCGM_FI_DEV_FB_USED{Hostname=~\"$hostname\"}",
           "interval": "",
-          "legendFormat": "GPU {{gpu}}",
+          "legendFormat": "{{Hostname}} GPU {{gpu}}",
           "refId": "A"
         }
       ],
@@ -952,6 +952,32 @@
   "tags": [],
   "templating": {
     "list": [
+      {
+        "allValue": ".*",
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "definition": "label_values(DCGM_FI_DEV_GPU_UTIL, Hostname)",
+        "hide": 0,
+        "includeAll": true,
+        "index": -1,
+        "label": "Hostname",
+        "multi": false,
+        "name": "hostname",
+        "options": [],
+        "query": "label_values(DCGM_FI_DEV_GPU_UTIL, Hostname)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
       {
         "allValue": null,
         "current": {},

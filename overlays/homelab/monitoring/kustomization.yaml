@@ -31,12 +31,6 @@ configMapGenerator:
     options:
       labels:
         grafana_dashboard: "1"
-  - name: grafana-dashboard-nvidia-gpu-metrics
-    files:
-      - dashboards/nvidia-gpu-metrics.json
-    options:
-      labels:
-        grafana_dashboard: "1"
   - name: grafana-dashboard-cilium-hubble
     files:
       - dashboards/cilium-hubble.json
