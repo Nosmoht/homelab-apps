@@ -113,24 +113,40 @@ grafana:
       skip_org_role_sync: false
   sidecar:
     datasources:
-      url: http://thanos-query.monitoring.svc:9090/
-      initDatasources: true
-      skipReload: true
-      env:
-        METHOD: LIST
-  additionalDataSources:
-    - name: prometheus
-      uid: prometheus-legacy
-      type: prometheus
-      access: proxy
-      url: http://thanos-query.monitoring.svc:9090
-    - name: default
-      uid: default
-      type: prometheus
-      access: proxy
-      url: http://thanos-query.monitoring.svc:9090
-    - name: Loki
-      uid: loki
-      type: loki
-      access: proxy
-      url: http://loki.monitoring.svc:3100
+      enabled: false
+  datasources:
+    datasource.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          uid: prometheus
+          type: prometheus
+          access: proxy
+          url: http://thanos-query.monitoring.svc:9090/
+          isDefault: true
+          jsonData:
+            httpMethod: POST
+            timeInterval: 30s
+        - name: Alertmanager
+          uid: alertmanager
+          type: alertmanager
+          access: proxy
+          url: http://monitoring-kube-prometheus-alertmanager.monitoring:9093/
+          jsonData:
+            handleGrafanaManagedAlerts: false
+            implementation: prometheus
+        - name: prometheus
+          uid: prometheus-legacy
+          type: prometheus
+          access: proxy
+          url: http://thanos-query.monitoring.svc:9090
+        - name: default
+          uid: default
+          type: prometheus
+          access: proxy
+          url: http://thanos-query.monitoring.svc:9090
+        - name: Loki
+          uid: loki
+          type: loki
+          access: proxy
+          url: http://loki.monitoring.svc:3100
