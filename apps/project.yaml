@@ -32,5 +32,3 @@ spec:
     - https://cloudnative-pg.github.io/charts*
     - https://ot-container-kit.github.io/helm-charts
     - https://ot-container-kit.github.io/helm-charts*
-    - https://strimzi.io/charts/
-    - https://strimzi.io/charts/*
